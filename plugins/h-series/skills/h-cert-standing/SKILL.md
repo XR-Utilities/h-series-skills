@@ -41,3 +41,15 @@ counterparty, call `h_cert_resolve` with your trust requirements, or read `h_cer
 for the raw verdict. Because standing is signed and anchored, you can verify it against the
 signer's key rather than trusting the operator. Pair it with `h-scope-posture` (wallet-level
 posture) for a fuller safety picture.
+
+## Sanctions advisory overlay
+
+`GET /standing/:subject` (and `/verdict`) carries a separate advisory `sanctions` block
+`{ listed, list: "ofac-sdn", effectiveTier: "revoked", advisory: true }`. A subject on the
+OFAC SDN list reads `sanctions.effectiveTier: "revoked"`; the signed behavioral verdict is
+unchanged and stays verifiable against the signer's key. `POST /resolve` refuses a sanctioned
+subject unconditionally.
+
+The overlay is read-time and never anchored (OFAC is a public, mutable list). It is the
+advisory standing mirror of the hard money-path deny in H-Agent, which refuses to pay or
+purchase a sanctioned counterparty before any funds move.

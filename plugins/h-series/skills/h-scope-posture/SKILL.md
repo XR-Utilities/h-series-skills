@@ -25,3 +25,9 @@ Call `h_scope_scan` before sending funds to, or delegating to, an unfamiliar add
 gate the action on the posture score. It is advisory (a risk read, not a guarantee), so treat
 a poor score as a reason to pause or require review, not an automatic block. Pair it with
 `h-cert-standing` (principal-level standing) for identity-plus-behavior coverage.
+
+## With H-Grant
+
+A wallet's posture tier can gate a grant release via the `requirePosture()` template in an
+H-Grant policy (the flagship "do not pay a low-posture counterparty" pattern; see the
+`h-grant-authorization` skill). H-Scope's posture also feeds a subject's H-Cert standing.

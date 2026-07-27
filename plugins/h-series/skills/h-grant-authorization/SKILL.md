@@ -35,3 +35,18 @@ Host for direct HTTP: `https://h-grant.xr-utilities.ai` (read `GET /config`).
 
 Non-custodial by design: the grantee gets a bounded capability, not a credential. The limits
 live in the signed, anchored grant, so they are verifiable and cannot be silently widened.
+
+## Gate fragments
+
+Two composable policy templates gate a release on a suite safety signal:
+
+- `requirePosture({ minTier, subject?, onUnknown? })`: gate on H-Scope wallet-behavior
+  POSTURE. `subject` selects the counterparty being paid ("target", the default) or the
+  grantee. `minTier` is one of `none | minimal | moderate | institutional | core-institutional`.
+- `requireStanding({ minTier, maxStalenessDays? })`: gate on H-Cert behavioral STANDING /
+  Agent Behavioral Standing. `minTier` is one of `trusted | watch | unrated | suspended | revoked`.
+
+These are pure gate fragments, not shaping templates. They COMPOSE onto a shaping template
+(`spendCap`, `x402ServiceCall`, and so on) via `mergePolicies`. For example, merge `spendCap`
+with `requireStanding({ minTier: "trusted" })` so a low-standing agent is refused even when it
+is within budget.
