@@ -1,0 +1,109 @@
+# h-series-skills
+
+<!-- H-SERIES-SHARED:START (synced from H-Grant/H-SERIES-CONVENTIONS.md - do not edit here) -->
+
+## H-Series shared conventions
+
+Canonical copy lives in H-Grant (`H-SERIES-CONVENTIONS.md`). Edit it there and run
+`scripts/sync-conventions.sh` to propagate the block into every repo's `CLAUDE.md`.
+These apply to every repo in the H-Series. Repo-specific instructions live OUTSIDE
+the synced block.
+
+### Authorship
+- Commit author identity: `XR-Utilities <xr-utilities@proton.me>` (the
+  XR-Utilities org account). Never a personal email.
+- The H-Series contact email is `xr-utilities@proton.me` (docs, manifests, public
+  contact fields), the same address used for commit authorship.
+- Commits, PRs, and code contain NO AI or assistant attribution of any kind: no
+  "authored by", "co-authored by", or "generated with" referencing Claude, AI, or
+  an assistant, and no such markers in code comments. Authorship is the human
+  contributor and the org only.
+
+### Style and voice
+Applies to ALL output: code, comments, docs, white papers, one-pagers, and website
+copy.
+- Direct, professional, technical language. No marketing voice.
+- No AI-speak. No AI or chatbot language patterns: no flowery or hedging prose, no
+  model self-references or assistant disclaimers, no chatty preambles, no preachy
+  wrap-up summaries. Lead with the asset or the answer.
+- No em dashes. Use commas, parentheses, or semicolons.
+- Avoid filler adjectives (robust, seamless, cutting-edge, pivotal, delve, unleash,
+  landscape). Prefer solid, functional, reliable.
+- Comments explain why, not what.
+
+### Working principle: no guessing
+Work and troubleshoot from facts, never assumptions. Ground every change, fix, and
+diagnosis in the actual code, data, logs, config, and observed behavior: read the
+source, run it, check the output, verify against reality before acting or
+concluding. If something cannot be verified, say so plainly instead of guessing.
+
+### Working principle: completeness checks
+Before any statement of scope ("all", "none", "every", "there are N", "X exists" /
+"X does not exist"), enumerate the authoritative source that defines the set and
+verify each member. Never answer scope from memory or the local workspace. For
+repos, enumerate the XR-Utilities org via the PAT, not the local `/workspaces`
+clones (clones are a partial, possibly stale subset). If a member cannot be
+verified, say so explicitly rather than omitting it.
+
+### Security change discipline (where this repo carries SECURITY-LOG.md)
+After any change that creates, updates, deletes, or disables/pauses code, do a
+focused security review of the diff. If it touches a security-relevant path or
+shifts the security posture (trust boundary, secret handling, authorization,
+signing, dependencies, logging, or a disabled/relaxed control), append a `pending`
+entry to `SECURITY-LOG.md`. The master H-Series security architecture doc (private,
+H-Grant `SECURITY-ARCHITECTURE.md`) is the collector. No secrets, keys, or raw
+target identifiers in the log.
+A SECURITY-LOG entry (and any in-code security comment) describes controls that are
+WIRED, not intended: verify each claimed protection against the code before writing
+it. An entry that names a guard the path does not actually enforce (e.g. a "nonce
+replay guard" on a path that consumes no nonce) is worse than none, because it hides
+the gap. When a change adds an authorization path that parallels an existing one (a
+token-presenting OIDC owner alongside a body-signing wallet owner, say), it must
+replicate the security properties of the path it parallels, replay protection
+included: a path with no per-body signature does NOT inherit the signing verifier's
+single-use lock, so it needs an explicit record-level single-use nonce of its own.
+
+### Financial change discipline (where this repo carries FINANCIAL-LOG.md)
+After any change that affects what a service charges or accepts (a price; a payment
+rail, chain, or token; a treasury wallet; a payment surface; a facilitator;
+settlement verification; or oracle quoting), append a `pending` entry to
+`FINANCIAL-LOG.md`. The canonical treasury source of truth and the audit routine
+live in H-Relay (`audit/treasury.json`, `npm run audit:financial`). The master doc
+(private, H-Grant `FINANCIAL-ARCHITECTURE.md`) is the collector. No secrets or keys
+in the log; public on-chain wallet addresses and token ids are fine.
+
+### Documentation and routines
+After any change, update every affected documentation asset: technical (READMEs,
+endpoint/API references, `.env.example`), architecture, security (SECURITY-LOG +
+the H-Grant master), financial (FINANCIAL-LOG + the H-Grant master, where money is
+handled), the white paper, the one-pager / sales sheet, continuity (the session
+handoff / next-session notes), and integration (client/SDK and how-to-integrate
+docs). Make the doc edit in the SAME commit as the code it describes; a doc left to
+update "later" is a doc that drifts (stale version pins, "live" claims for unwired
+code, "vendored" claims for a published dependency). Run the routines: a startup
+check at session start; smoke tests for the live paths (anything that moves money or
+touches a chain, end to end); a Quality + Functionality + Security audit of the diff,
+looping until clean; and the closeout gate (typecheck, full tests, the conventions
+gate, docs updated, handoff refreshed) before handoff.
+
+The smoke is a living asset, not a one-time write: when you add a feature, route, or
+service capability, ADD ITS SMOKE SECTION in the same commit. Two drifts to gate
+against, both of which we have hit: a smoke that silently stopped running (an
+un-awaited async boot, a config key that died in a migration) and a feature that
+shipped with no coverage. Where a repo has an e2e smoke, run it in CI against an
+ephemeral datastore (so rot is caught automatically) and enforce a coverage check
+that fails when a registered route is neither covered by a smoke section nor waived
+with a reason (so a new surface cannot escape the coverage decision). H-Grant is the
+reference (`scripts/check-smoke-coverage.ts` + `scripts/smoke-coverage.json`, wired
+into closeout and CI).
+
+A change is not "done" at "pushed". Pushed is not deployed: some surfaces auto-deploy
+and some do not, so verify the live service runs the pushed commit before claiming it
+shipped. And a security- or money-relevant change is not done until its behavior is
+verified (a test or a live probe), not merely typechecked.
+
+### Secrets
+Secrets read from environment only. Never committed. In Codespaces use repo-level
+Codespace secrets; in production use KMS or platform env injection.
+
+<!-- H-SERIES-SHARED:END -->
