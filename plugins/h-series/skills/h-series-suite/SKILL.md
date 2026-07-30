@@ -23,7 +23,7 @@ Claude Code:
 claude mcp add --transport http h-series https://mcp.xr-utilities.ai/mcp
 ```
 
-It exposes 44 tools across 8 products, namespaced by product (`h_index_*`, `h_seal_*`,
+It exposes 45 tools across 8 products, namespaced by product (`h_index_*`, `h_seal_*`,
 `h_grant_*`, `h_relay_*`, `h_gate_*`, `h_cert_*`, `h_pact_*`, `h_scope_*`). Call `tools/list`
 for the current, authoritative catalog and each tool's schema; this skill is the map of
 when to reach for which product, not a substitute for the live tool definitions.
