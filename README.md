@@ -49,8 +49,8 @@ npx skills@latest add XR-Utilities/h-series-skills
 - H-Series MCP server (the whole suite): `https://mcp.xr-utilities.ai/mcp`
 - H-Index registry: `https://h-index.xr-utilities.ai` (read `GET /config` for the contract)
 - H-Seal receipts: `https://h-seal.xr-utilities.ai`
-- H-Grant, H-Gate, H-Cert, H-Scope at `https://h-<name>.xr-utilities.ai`; H-Relay at
-  `https://h-relay-production.up.railway.app`; H-Agent at `https://h-agent.xr-utilities.ai`
+- H-Grant, H-Relay, H-Gate, H-Cert, H-Scope at `https://h-<name>.xr-utilities.ai`;
+  H-Agent at `https://h-agent.xr-utilities.ai`
 
 ## License
 

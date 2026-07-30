@@ -11,7 +11,7 @@ H-Index as its address book. Deliveries and relay provenance are anchored on Hed
 Consensus Service and optionally carry an H-Seal receipt.
 
 Tools are on the H-Series MCP server (`h_relay_*`); see the `h-series-suite` skill to connect.
-Host for direct HTTP: `https://h-relay-production.up.railway.app` (read `GET /config`).
+Host for direct HTTP: `https://h-relay.xr-utilities.ai` (read `GET /config`).
 
 ## Tools
 

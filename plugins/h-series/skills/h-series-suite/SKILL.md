@@ -72,6 +72,6 @@ The MCP tools relay your request; two cross-cutting flows stay client-side:
 Every product writes to HCS. A listing, receipt, grant, ring event, or standing verdict is a
 signed on-chain message you can replay from any Hedera mirror node and verify against the
 signer's key, without trusting the operator. Live hosts, if you prefer direct HTTP over the
-MCP server: `h-index`, `h-seal`, `h-grant`, `h-gate`, `h-cert`, `h-scope` at
-`https://h-<name>.xr-utilities.ai`; H-Relay at `https://h-relay-production.up.railway.app`.
+MCP server: `h-index`, `h-seal`, `h-grant`, `h-relay`, `h-gate`, `h-cert`, `h-scope` at
+`https://h-<name>.xr-utilities.ai`.
 Read each product's `GET /config` for its topic id, price, and signing contract.
